@@ -1,0 +1,49 @@
+<div>
+    <a href="{% url 'note_form' url.diary_id url.day url.month url.year %}" class="btn btn-primary btn-md">
+         <i class="fas fa-plus"></i> New note
+    </a>
+</div>
+
+<div class="mt-4">
+    {% for note in notes %}
+        <div class="d-flex flex-row gap-4 mb-2">
+            <div>
+                <em>{{note.creation_date|date:"G:i"}}, Last modified: </em>
+                <em id="last-modified">{{note.last_modified|date:"G:i"}}</em>
+                <em>
+                    {% if note.author %}
+                    ({{note.author.username}})
+                    {% endif %}
+                </em>
+            </div>
+            <div>
+                {% if note.author is None or note.author == user %}
+                <button class="btn btn-secondary btn-sm mb-2 ms-1" onclick="modifyNote({{note.id}})">
+                    Modify
+                </button>
+                 <button class="btn btn-secondary btn-sm mb-2 ms-1" onclick="deleteNote({{note.id}})">
+                    Delete
+                </button>
+                <form id="deleteNoteForm-{{note.id}}" style="display: none;  " method="POST" action="{% url 'delete_note' note.id %}">
+                    {% csrf_token %}
+                    <!-- <input name="note_id" type="number" value="{{note.id}}"/> -->
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        <div id="note-text-{{note.id}}">{{note.text|linebreaks}}</div>
+        {% if note.author is None or note.author == user %}
+        <form id="note-form-{{note.id}}" style="display: none;  " method="POST" action="{% url 'update_note' note.id %}">
+            {% csrf_token %}
+            <p>
+                <textarea name="text" id="note-textarea-{{note.id}}" class="form-control"></textarea>
+            </p>
+            <div class="d-flex flex-row-reverse gap-2">
+                <input type="submit" class="btn btn-primary" value="Confirm"/>
+                <input type="button" class="btn btn-secondary" value="Cancel" onclick="cancelNoteModification({{note.id}})"/>
+            </div>
+        </form>
+        {% endif %}
+        <hr/>
+    {% endfor %}
+</div>

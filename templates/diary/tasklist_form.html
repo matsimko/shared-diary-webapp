@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Task list form{% endblock %}
+
+{% block content %}
+    <form class="w-50" method="POST" action="{% url 'create_tasklist' url.diary_id url.day url.month url.year%}">
+        {% csrf_token %}
+        <div class="form-group">
+        {{ tasklist_form.as_p }}
+        </div>
+        <input class="btn btn-secondary btn-md" type="submit" value="Create task list"/>
+    </form>
+{% endblock %}

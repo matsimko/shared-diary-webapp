@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+    <h2>Received invites</h2>
+
+    {% if user.invites_to.all  %}
+    <ul class="list-group">
+        {% for inv in user.invites_to.all %}
+            <li class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-md-2">Group: {{ inv.group.name }}</div>
+                    <div class="col-md-2">Invited by: {{ inv.from_user.username }}</div>
+                    <div class="col-md-4">
+                        <a class="btn btn-success btn-sm" href="{% url 'accept_invite' inv.id%}"><i class="fas fa-check"></i> Accept</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'decline_invite' inv.id%}"><i class="fas fa-times"></i> Decline</a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        You have no invites.
+    {% endif %}
+
+    <h2 class="mt-4">Sent invites</h2>
+    {% if user.invites_from.all  %}
+    <ul class="list-group">
+    {% for inv in user.invites_from.all %}
+        <li class="list-group-item">
+            <div class="row align-items-center">
+                <div class="col-md-2">Group: {{ inv.group.name }}</div>
+                <div class="col-md-2">User: {{ inv.to_user.username }}</div>
+                <div class="col-md-2">
+                    <a class="btn btn-secondary btn-sm" href="{% url 'cancel_invite' inv.id %}"><i class="fas fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        You have sent no invites.
+    {% endif %}
+{% endblock %}

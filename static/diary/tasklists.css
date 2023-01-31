@@ -1,0 +1,7 @@
+.finished .task-text {
+    text-decoration: line-through;
+}
+
+.hidden {
+    display: none;
+}

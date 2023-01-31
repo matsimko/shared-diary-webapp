@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Invite form{% endblock %}
+
+{% block content %}
+    <form class="w-50" method="POST" action="{% url 'send_invite' %}">
+        {% csrf_token %}
+        <div class="form-group">
+        {{ invite_form.as_p }}
+        </div>
+        <input class="btn btn-secondary btn-md" type="submit" value="Send invite"/>
+    </form>
+{% endblock %}

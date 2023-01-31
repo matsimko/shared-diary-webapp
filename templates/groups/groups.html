@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+    <div class="mb-4">
+        <a href="{% url 'get_group_form' %}" class="btn btn-primary btn-md">
+         <i class="fas fa-plus"></i> Create a group
+        </a>
+    </div>
+
+     <!--fixed max-width is the solution: it won't be too big on monitors,
+      but it will get smaller once the screen size is smaller than the max-width -->
+    <div class="d-grid gap-3" style="max-width: 600px">
+        {% for group in group_list %} <!-- or object_list, these are default-->
+           <div class="p-3 bg-light border">
+                    <div class="d-flex justify-content-between">
+                        <h2 class="list-group-item-heading">{{ group.name }}</h2>
+                        <div>
+                            <a class="btn btn-secondary btn-md mb-2 ms-2" href="{% url 'leave_group' group.id%}">Leave</a>
+                            <a class="btn btn-secondary btn-md mb-2 ms-2" href="{% url 'invite' group.id%}">Invite a user</a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="">{{ group.users_str }}</p> <!--or: {{ group.users|join:", " }} -->
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

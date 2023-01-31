@@ -1,0 +1,20 @@
+<div>
+    <!-- maybe there is a better way to do this without hardcoding it
+    (this hardcoded version works: {request.path}}story-form
+    (but the url would have to be updated when sending the AJAX))
+    (in a way it is less hardcoded than the current version...)-->
+    <a href="{% url 'story_form' url.diary_id url.day url.month url.year %}" class="btn btn-primary btn-md">
+         <i class="fas fa-plus"></i> New story
+    </a>
+</div>
+
+<div class="mt-4">
+    {% for story in stories %}
+        <h3>{{story.title}}
+            <small class="text-muted">
+                ({{story.creation_date|date:"G:i"}}{% if story.author %}, {{story.author}}{% endif %})
+            </small>
+        </h3>
+        <div>{{story.text|linebreaks}}</div>
+    {% endfor %}
+</div>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Story form{% endblock %}
+
+{% block content %}
+    <form class="w-50" method="POST" action="{% url 'create_story' url.diary_id url.day url.month url.year%}">
+        {% csrf_token %}
+        <div class="form-group">
+        {{ story_form.as_p }}
+        </div>
+        <input class="btn btn-secondary btn-md" type="submit" value="Create story"/>
+    </form>
+{% endblock %}
